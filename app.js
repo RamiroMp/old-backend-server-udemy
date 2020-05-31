@@ -3,13 +3,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+//const serveIndex = require('serve-index');
 
 
 
 // Inicializar Variables
 
 const app = express();
+
+
+
 
 
 // Body-Parser
@@ -29,16 +32,29 @@ mongoose.connection.openUri('mongodb://localhost:27017/hospitalDB', { useCreateI
 mongoose.set('useFindAndModify', false);
 
 
+
+
 // Importar rutas
 let appRoutes = require('./routes/app');
 let usuarioRoutes = require('./routes/usuario');
 let loginRoutes = require('./routes/login');
+let hospitalRoutes = require('./routes/hospital');
+let medicoRoutes = require('./routes/medico');
+let busquedaRoutes = require('./routes/busqueda');
+let uploadRoutes = require('./routes/upload');
+let imagenesRoutes = require('./routes/imagenes');
 
-
+//app.use(express.static(__dirname + '/'))
+//app.use('/uploads', serveIndex(__dirname + '/uploads'));
 
 // Rutas
 app.use('/usuario', usuarioRoutes);
 app.use('/login', loginRoutes);
+app.use('/hospital', hospitalRoutes);
+app.use('/medico', medicoRoutes);
+app.use('/busqueda', busquedaRoutes);
+app.use('/upload', uploadRoutes);
+app.use('/img', imagenesRoutes);
 app.use('/', appRoutes);
 
 

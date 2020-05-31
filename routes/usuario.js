@@ -16,11 +16,16 @@ const saltRounds = 10;
 
 
 
-app.get('/', (req, res) => {
+app.get('/', (req, res, next) => {
 
 
+    let desde = req.query.desde || 0;
+    desde = Number(desde);
 
-    Usuario.find({}, 'nombre email img, role')
+
+    Usuario.find({}, 'nombre email img role')
+        .skip(desde)
+        .limit(5)
         .exec((err, usuariosDb) => {
 
 
@@ -31,11 +36,17 @@ app.get('/', (req, res) => {
                     err
                 });
             }
+            Usuario.count({}, (err, conteo) => {
 
-            res.status(200).json({
-                ok: true,
-                usuariosDb
+                res.status(200).json({
+                    ok: true,
+                    usuariosDb,
+                    total: conteo
+                });
+
             });
+
+
 
         });
 
